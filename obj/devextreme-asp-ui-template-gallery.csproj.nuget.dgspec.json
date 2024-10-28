@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {}
+    "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {}
   },
   "projects": {
-    "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {
+    "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
+        "projectUniqueName": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
         "projectName": "devextreme-asp-ui-template-gallery",
-        "projectPath": "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
+        "projectPath": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\devextreme-asp-ui-template-gallery.csproj",
         "packagesPath": "C:\\Users\\ReocurringDM\\.nuget\\packages\\",
-        "outputPath": "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\obj\\",
+        "outputPath": "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "F:\\_Matrix\\devextreme-asp-ui-template-gallery\\NuGet.Config",
+          "F:\\_Matrix\\FORK-devextreme-asp-ui-template-gallery\\NuGet.Config",
           "C:\\Users\\ReocurringDM\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -72,19 +72,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.33, 6.0.33]"
+              "version": "[6.0.35, 6.0.35]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.33, 6.0.33]"
+              "version": "[6.0.35, 6.0.35]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.33, 6.0.33]"
+              "version": "[6.0.35, 6.0.35]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.33, 6.0.33]"
+              "version": "[6.0.35, 6.0.35]"
             }
           ],
           "frameworkReferences": {
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

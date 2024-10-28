@@ -22,10 +22,19 @@
 
     @* Custom theme with a color swatch *@
     @* Docs: https://js.devexpress.com/DevExtreme/Guide/Themes_and_Styles/Predefined_Themes/#Color_Swatches *@
-    <link href="~/css/devextreme/theme.base.css" rel="stylesheet" />
-    <link href="~/css/devextreme/theme.additional.css" rel="stylesheet" />
+    
+    @* Old Theme and Swatch *@
+    @* <link href="~/css/devextreme/theme.base.css" rel="stylesheet" /> *@
+    @* <link href="~/css/devextreme/theme.additional.css" rel="stylesheet" /> *@
 
-    <link rel="stylesheet" href="~/css/Site.css" />
+    <link href="~/css/devextreme/dx.fluent.blue-light.css" rel="dx-theme" data-theme="fluent.blue.light" data-active="true" />
+    <link href="~/css/devextreme/dx.fluent.blue-dark.css" rel="dx-theme" data-theme="fluent.blue.dark" data-active="false" />
+
+     @* <link href="~/css/theme-light-generated.css" rel="stylesheet"/> *@
+     <link href="~/css/styles-generated.css" rel="stylesheet"/>
+     <link href="~/css/pages-generated.css" rel="stylesheet"/>
+    <link href="~/css/app-generated.css" rel="stylesheet" />
+
 
     @* Uncomment to use the Gantt control *@
     @*<script src="~/js/devextreme/dx-gantt.js"></script>*@
@@ -61,9 +70,11 @@
 </head>
 
 <body class="dx-viewport">
-    <div id="app-side-nav-outer-toolbar">
-        <div class="layout-header">
+    <div id="side-nav-outer-toolbar">
+        <header>
+            <div class="header-component layout-header">
             @(Html.DevExtreme().Toolbar()
+                .ElementAttr(new { @class = "header-toolbar" })
                 .Items(items => {
                     items.Add()
                         .Widget(w => w
@@ -74,12 +85,45 @@
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("menu-button");
                     items.Add()
-                        .Html("<div>devextreme_asp_ui_template_gallery</div>")
+                        .Html("<div>UI Template Gallery</div>")
                         .Location(ToolbarItemLocation.Before)
                         .CssClass("header-title");
+                    items.Add()
+                        .Location(ToolbarItemLocation.After)
+                        .CssClass("global-search-box")
+                        .Widget(w => w
+                            .TextBox()
+                            .Width(180)
+                            .Placeholder("Search")
+                            .Mode(TextBoxMode.Search)
+                            .StylingMode(EditorStylingMode.Filled)
+                        );
+                    items.Add()
+                        .LocateInMenu(ToolbarItemLocateInMenuMode.Never)
+                        .Location(ToolbarItemLocation.After)
+                        .Widget(w => w
+                            .Button()
+                            .OnInitialized("onThemeSwitcherInit")
+                            .ElementAttr(new { @class = "theme-button" })
+                            .StylingMode(ButtonStylingMode.Text)
+                            .Icon("sun")
+                            .OnClick("onThemeSwitcherClick")
+                        );
+                    items.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .Template(@<text>
+                        <div class="messages">
+                            <div id="messages-button"></div>
+                            <div class="dx-badge">4</div>
+                        </div>
+                    </text>);
+                    items.Add()
+                    .Location(ToolbarItemLocation.After)
+                    .LocateInMenu(ToolbarItemLocateInMenuMode.Auto);
                 })
             )
         </div>
+        </header>
         <div class="layout-body layout-body-hidden">
             @(Html.DevExtreme().Drawer()
                 .ID("layout-drawer")
@@ -107,7 +151,7 @@
     </div>
 
     @using(Html.DevExtreme().NamedTemplate("navigation-menu")) {
-        <div class="menu-container dx-swatch-additional">
+        <div class="menu-container">
 
             @functions{
                 string GetUrl(string pageName) => Url.Page(pageName);
@@ -142,8 +186,26 @@
     }
 
     <script>
+        DevExpress.ui.themes.current(window.localStorage.getItem("dx-theme") || "fluent.blue.light");
 
-        var devextreme_asp_ui_template_gallery = (function() {
+        function onThemeSwitcherInit(e) {
+                if (DevExpress.ui.themes.current() === "fluent.blue.light") {
+                    e.component.option("icon", "sun");
+                } else {
+                    e.component.option("icon", "moon");
+                }
+        }
+        function onThemeSwitcherClick(e) {
+            if (DevExpress.ui.themes.current() === "fluent.blue.light") {
+                DevExpress.ui.themes.current("fluent.blue.dark");
+                e.component.option("icon", "moon");
+            } else {
+                DevExpress.ui.themes.current("fluent.blue.light");
+                e.component.option("icon", "sun");
+            }
+        }
+
+        var devextreme_asp_ui_template_gallery = (function () {
 
             var DRAWER_OPENED_KEY = "devextreme_asp_ui_template_gallery-drawer-opened";
 
@@ -199,6 +261,11 @@
                 updateDrawer();
 
                 $('.layout-body').removeClass('layout-body-hidden');
+
+                $("#messages-button").dxButton({
+                    icon: 'belloutline',
+                    stylingMode: "text"
+                });
             }
 
             function navigate(url, delay) {

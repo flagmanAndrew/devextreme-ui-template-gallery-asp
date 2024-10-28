@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("devextreme-asp-ui-template-gallery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2cccc1f7fd67d3bf9a3a67ff92891a9eeedbd9b")]
 [assembly: System.Reflection.AssemblyProductAttribute("devextreme-asp-ui-template-gallery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("devextreme-asp-ui-template-gallery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
