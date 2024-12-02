@@ -224,6 +224,7 @@
         @(Html.DevExtreme().Drawer()
             .ID("layout-body")
             .Position(DrawerPosition.Before)
+            .RevealMode(DrawerRevealMode.Expand)
             .Opened(new JS("devextreme_asp_ui_template_gallery.restoreDrawerOpened()"))
             .MinSize(48)
             .MaxSize(250)
