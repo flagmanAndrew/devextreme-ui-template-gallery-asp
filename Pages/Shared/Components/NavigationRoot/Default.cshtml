@@ -220,7 +220,7 @@
                     )
             </div>
         </header>
-
+        
         @(Html.DevExtreme().Drawer()
             .ID("layout-body")
             .Position(DrawerPosition.Before)
@@ -230,7 +230,9 @@
             .CloseOnOutsideClick(false)
             .Shading(false)
             .Content(@<text>
-                <div id="navigatable-view-placeholder"></div>
+                <div class="content">
+                    <div id="navigatable-view-placeholder"></div>
+                </div>
             </text>)
             .Template(new TemplateName("navigation-menu"))
         )
