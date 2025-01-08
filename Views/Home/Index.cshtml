@@ -1,19 +1,10 @@
-﻿@using DevExtreme.Asp.Template.Gallery.ViewComponents
-@using DevExtreme.Asp.Template.Gallery.Models
-<h2 class="content-block">Tasks</h2>
-
-<script>
-    function gridInitialized(e) {
-        console.log("gridInitialized");
-    }
-</script>
+<h2 class="content-block">Home</h2>
 
 @(Html.DevExtreme().DataGrid<SampleOrder>()
-    .ID("TasksGrid")
+    .ID("MyDataGrid")
     .ElementAttr(new { @class = "dx-card wide-card" })
     .DataSource(d => d.Mvc().Controller("SampleData").LoadAction("Get").Key("OrderID"))
     .ShowBorders(false)
-    .OnInitialized("gridInitialized")
     .FilterRow(f => f.Visible(true))
     .FocusedRowEnabled(true)
     .FocusedRowIndex(0)
@@ -33,3 +24,7 @@
         .ShowInfo(true)
     )
 )
+
+@section MySection {
+    <p class="content-block dx-card responsive-paddings">Main page Section content</p>
+}
