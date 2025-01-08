@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace devextreme_asp_ui_template_gallery.ViewComponents
+namespace DevExtreme.Asp.Template.Gallery.ViewComponents
 {
     public class TasksViewComponent : ViewComponent
     {

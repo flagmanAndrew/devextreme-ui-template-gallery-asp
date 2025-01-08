@@ -2,9 +2,9 @@
 
 namespace DevExtreme.Asp.Template.Gallery.ViewComponents
 {
-    public class AboutViewComponent : ViewComponent
+    public class NavigationRootViewComponent : ViewComponent
     {
-        public AboutViewComponent() {
+        public NavigationRootViewComponent() {
         }
         public IViewComponentResult Invoke() {
             return View();

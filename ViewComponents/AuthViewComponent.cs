@@ -2,9 +2,9 @@
 
 namespace DevExtreme.Asp.Template.Gallery.ViewComponents
 {
-    public class AboutViewComponent : ViewComponent
+    public class AuthViewComponent : ViewComponent
     {
-        public AboutViewComponent() {
+        public AuthViewComponent() {
         }
         public IViewComponentResult Invoke() {
             return View();
