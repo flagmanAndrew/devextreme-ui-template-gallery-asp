@@ -8,7 +8,15 @@ function addTask() {
 }
 
 function tabValueChange(e: DevExpress.ui.dxTabs.ItemClickEvent) {
-    console.log("tabValueChanged", e);
+    let url: string = "../Home/GetPlanningTasks";
+    if (e.itemData.text === "List") url += "Grid";
+    if (e.itemData.text === "Kanban Board") url += "Kanban";
+    if (e.itemData.text === "Gantt") url += "Gantt";
+    $("#planning-load-panel").dxLoadPanel("show");
+    $.get(url).then(data => {
+        $("#planning-tasks-content").html(data)
+        $("#planning-load-panel").dxLoadPanel("hide");
+    });
 }
 
 function reload() {
