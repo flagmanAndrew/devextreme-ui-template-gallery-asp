@@ -33,7 +33,8 @@ Then add corresponding files to the `CopyTask`: [link](https://github.com/artem-
 ### Add more Pages with additional features/components (aka code rules)
 
 - Create a new folder for each group of pages you plan to add to navigation
-- If page includes multiple components, you need to create sub-folders to add partial views to separate logic.
+- If a page includes multiple components, you need to create sub-folders to add partial views to separate logic.
+- Partial and layout views should start with the "_" symbol. 
 - All code should be written in TS and styles defined in SCSS. You need to create corresponding files in `src`. 
 - You need to link scripts and styles as JS/CSS files into corresponding views (e.g. see [link](https://github.com/artem-kurchenko/devextreme-asp-ui-template-gallery/blob/d452b4ad4b26830aec70d3527a7a3a57378b36b9/Views/PlanningTasks/PlanningTasks.cshtml#L2))
 
