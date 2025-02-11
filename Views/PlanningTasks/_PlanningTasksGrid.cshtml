@@ -2,7 +2,7 @@
 @using DevExtremeVSTemplateMVC.Utils.Data;
 
 <script>
-    var CLASS_STATUS_PREFIX = "status-indicator-";
+    var CLASS_STATUS_PREFIX = "item-field item-";
     var CLASS_CELL_STATUS = "input-with-bar status status-indicator ";
 </script>
 
@@ -131,11 +131,11 @@
             const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase();
             const classList = CLASS_CELL_STATUS + statusCSSClass;
             %>
-            <div class="<%- classList %>">
+            <div class="status-editor-field">
                 @(Html.DevExtreme().TextBox()
                 .ElementAttr(new JS("{ class: statusCSSClass }"))
                 .ReadOnly(true)
-                .InputAttr(new JS("{ class: 'status-input status-editor-input' }"))
+                .InputAttr(new JS("{ class: statusCSSClass }"))
                 .HoverStateEnabled(false)
                 .Value(new JS("'| ' + obj"))
                 )
@@ -183,11 +183,11 @@
             const statusCSSClass = CLASS_STATUS_PREFIX + obj.toLowerCase().replace(/\s+/g, '-');
             const classList = CLASS_CELL_STATUS + statusCSSClass;
             %>
-            <div class="<%- classList %>">
+            <div class="status-editor-field">
                 @(Html.DevExtreme().TextBox()
                 .ElementAttr(new JS("{ class: statusCSSClass }"))
                 .ReadOnly(true)
-                .InputAttr(new JS("{ class: 'status-input status-editor-input' }"))
+                .InputAttr(new JS("{ class: statusCSSClass }"))
                 .HoverStateEnabled(false)
                 .Value(new JS("obj"))
                 )
