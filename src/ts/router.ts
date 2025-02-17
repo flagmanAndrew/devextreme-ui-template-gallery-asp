@@ -1,17 +1,19 @@
-"use strict";
-var SPARouter = (function () {
-    const PLACEHOLDER_ATTR = 'data-placeholder-id';
-    const TARGET_PLACEHOLDER_ATTR = 'data-target-placeholder-id';
+﻿var SPARouter = (function () {
+    const PLACEHOLDER_ATTR: string = 'data-placeholder-id';
+    const TARGET_PLACEHOLDER_ATTR: string = 'data-target-placeholder-id';
+
     function init() {
         window.addEventListener('popstate', function () {
             handleRoute(document.location.toString());
         });
     }
-    function navigate(url) {
+
+    function navigate(url: string) {
         history.pushState({}, '', url);
         handleRoute(url);
     }
-    function handleRoute(targetUrl) {
+
+    function handleRoute(targetUrl: string) {
         const url = new URL(targetUrl, window.location.origin);
         url.searchParams.append('__PARTIAL', 'true');
         $.get(url.href, function (markup) {
@@ -29,6 +31,7 @@ var SPARouter = (function () {
             });
         });
     }
+
     return {
         init,
         navigate,
