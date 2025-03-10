@@ -7,8 +7,8 @@
 
 How to add TS scripts for the view
 
-6) Create myview.ts file in src/ts/views.
-7) Link myview.js file in the view's code. This JS file will be generated based on the TS file during the build process.
+5) Create myview.ts file in src/ts/views.
+6) Link myview.js file in the view's code. This JS file will be generated based on the TS file during the build process.
    ```html
    <script src="~/js/views/myview.js"></script>
    ```
