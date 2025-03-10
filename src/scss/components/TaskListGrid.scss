@@ -5,6 +5,15 @@
     min-height: 300px;
 }
 
+.dx-datagrid-header-panel {
+    padding-top: 0;
+}
+
+.dx-datagrid-header-panel .dx-datagrid-toolbar-button .dx-icon.dx-icon-plus,
+.dx-datagrid-header-panel .dx-datagrid-toolbar-button .dx-button-text {
+    color: #fff;
+}
+
 .edit-cell {
     position: relative;
 
@@ -14,14 +23,4 @@
         margin-top: 10px;
         margin-left: 11px;
     }
-}
-
-
-.dx-datagrid-header-panel {
-    padding-top: 0;
-}
-
-.dx-datagrid-header-panel .dx-datagrid-toolbar-button .dx-icon.dx-icon-plus,
-.dx-datagrid-header-panel .dx-datagrid-toolbar-button .dx-button-text {
-    color: #fff;
 }

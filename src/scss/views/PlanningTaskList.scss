@@ -43,33 +43,3 @@
         padding: 0 0 var(--content-padding) calc(var(--content-padding) / 2);
     }
 }
-
-.contact-status .status-editor-field .status-indicator {
-    align-self: flex-end;
-
-    &.status {
-        display: inline;
-    }
-}
-
-.status-editor-field {
-    display: flex;
-
-    .status-indicator {
-        display: flex;
-        align-self: center;
-        padding-left: var(--list-padding-left);
-    }
-
-    .status {
-        display: flex;
-    }
-
-    .status-input.status-input {
-        padding-left: 0;
-    }
-}
-
-.status span {
-    font-size: 13px;
-}
