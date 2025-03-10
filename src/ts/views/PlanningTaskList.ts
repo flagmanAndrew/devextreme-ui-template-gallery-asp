@@ -1,8 +1,3 @@
-$(function () {
-    const dateType: DevExpress.ui.dxDateBox.DateType = 'datetime';
-    DevExpress.ui.notify(`message from TS: ${dateType}`)
-})
-
 function addTask() {
     console.log("Add Task for Planning Task Grid");
 }
@@ -14,7 +9,7 @@ function tabValueChange(e: DevExpress.ui.dxTabs.ItemClickEvent) {
     if (e.itemData.text === "Gantt") url += "Gantt";
     $("#planning-load-panel").dxLoadPanel("show");
     $.get(url).then(data => {
-        $("#planning-tasks-content").html(data)
+        $(".planning-tasks-content").html(data)
         $("#planning-load-panel").dxLoadPanel("hide");
     });
 }

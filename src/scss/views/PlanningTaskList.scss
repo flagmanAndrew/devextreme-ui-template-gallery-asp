@@ -18,9 +18,7 @@
         }
     }
 
-    .planning-grid,
-    .kanban,
-    .gantt {
+    .kanban, .gantt {
         display: flex;
         flex-grow: 1;
         flex-direction: column;
@@ -31,6 +29,10 @@
         & > .dx-datagrid {
             min-height: 100%;
         }
+    }
+
+    .planning-tasks-content {
+        max-height: calc(100% - var(--toolbar-height) - var(--content-padding) * 2);
     }
 
     .gantt {
