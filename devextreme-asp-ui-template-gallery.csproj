@@ -14,13 +14,15 @@
 			<JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.all.js" />
 			<JSFiles Include="$(NodeModulesDir)devextreme-dist\js\dx.aspnet.mvc.js" />
 			<JSFiles Include="$(NodeModulesDir)devextreme-aspnet-data\js\dx.aspnet.data.js" />
+			<JSFiles Include="$(NodeModulesDir)devexpress-gantt\dist\dx-gantt.min.js" />
 		</ItemGroup>
 		<Copy SourceFiles="@(JSFiles)" DestinationFolder="$(WwwRootDir)js\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		
 		<ItemGroup>
-			<FontFiles Include="$(NodeModulesDir)devextreme-dist\css\**\*.woff;$(NodeModulesDir)devextreme-dist\css\**\*.woff2;$(NodeModulesDir)devextreme-dist\css\**\*.ttf" />
+			<StyleFiles Include="$(NodeModulesDir)devextreme-dist\css\**\*.woff;$(NodeModulesDir)devextreme-dist\css\**\*.woff2;$(NodeModulesDir)devextreme-dist\css\**\*.ttf" />
+			<StyleFiles Include="$(NodeModulesDir)devexpress-gantt\dist\dx-gantt.min.css" />
 		</ItemGroup>
-		<Copy SourceFiles="@(FontFiles)" DestinationFolder="$(WwwRootDir)css\%(RecursiveDir)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(StyleFiles)" DestinationFolder="$(WwwRootDir)css\%(RecursiveDir)" SkipUnchangedFiles="true" />
 	</Target>
 
 	<ItemGroup>
