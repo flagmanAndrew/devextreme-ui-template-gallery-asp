@@ -22,6 +22,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
+                .OnOptionChanged("formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.FirstName)
@@ -68,6 +69,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
+                .OnOptionChanged("formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.Phone)
@@ -138,6 +140,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
+                .OnOptionChanged("formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.Country)

@@ -79,9 +79,7 @@
                                     )
                                 </div>
                             </div>
-
-                            @* @(Html.ConfigureItems(new JS("profileCardItems"), 4).ID("basic-info-card-id")) *@
-                            @(Html.BasicInfoCard(Model))
+                            @(Html.BasicInfoCard(Model).ID("basic-info-id"))
                         </div>
                     </div>
                 </div>
@@ -115,8 +113,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @* @(Html.ConfigureItems(new JS("contactItemes"), 2).ID("contacts-card-id")) *@
-                            @(Html.ContactsCard(Model))
+                            @(Html.ContactsCard(Model).ID("contact-info-id"))
                         </div>
                     </div>
                 </div>
@@ -137,7 +134,7 @@
                                     </div>
                                 </div>
                              </div>
-                             @(Html.AddressCard(Model))
+                             @(Html.AddressCard(Model).ID("address-info-id"))
                         </div>
                     </div>
                 </div>
@@ -174,9 +171,25 @@
             .ReadOnly(true)
             .HoverStateEnabled(true)
             .InputAttr(new {
-                @class = "status-<%- String(obj).toLowerCase() %>",
+                @class = new JS("'status-'+obj.toLowerCase()"),
                 @picturedItemEditorInput = ""
             }))
+    </div>
+}
+
+@using (Html.DevExtreme().NamedTemplate("SupervisorFieldTemplate"))
+{
+    <div class="pictured-item-select-field">
+        <img class="pictured-item-image" alt="<%- obj ? obj.name : '' %>"
+             src="data:image/png;base64,<%- obj ? obj.image : '' %>"/>
+        @(Html.DevExtreme().TextBox()
+            .Value(new JS("obj ? obj.name : ''"))
+        .ReadOnly(true)
+        .HoverStateEnabled(true)
+        .InputAttr(new
+        {
+            @picturedItemEditorInput = ""
+        }))
     </div>
 }
 
@@ -202,6 +215,8 @@
                         .Type(ButtonType.Normal)
                         .OnClick("onCancelClick"))
                     @(Html.DevExtreme().Button()
+                        .ID("reset-save-button")
+                        .Disabled(false)
                         .Text("Save")
                         .StylingMode(ButtonStylingMode.Outlined)
                         .Type(ButtonType.Default)
@@ -210,86 +225,91 @@
             </text>);
     })
     .ContentTemplate(@<text>
-        @using(Html.DevExtreme().ValidationGroup()) {
-            @(Html.DevExtreme().Form()
-                .LabelMode(FormLabelMode.Outside)
-                .ShowColonAfterLabel(true)
-                .LabelLocation(FormLabelLocation.Top)
-                .Items(items => {
-                    items.AddSimple()
-                        .Label(l => l.Text("Current Password"))
+        @(Html.DevExtreme().Form()
+            .ID("password-reset-id")
+            .FormData(new JS("passwordFormData"))
+            .LabelMode(FormLabelMode.Outside)
+            .ShowColonAfterLabel(true)
+            .LabelLocation(FormLabelLocation.Top)
+            .OnFieldDataChanged("passwordResetOptionChanged")
+            .Items(items => {
+                items.AddSimple()
+                    .DataField("currentPassword")
+                    .Label(l => l.Text("Current Password"))
+                    .Name("CurrentPassword")
+                    .Editor(editor => editor.TextBox()
+                        .ValueChangeEvent("keyup")
+                        .Placeholder("Current password")
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Mode(TextBoxMode.Password)
+                        .Buttons(buttons => {
+                            buttons.Add()
+                                .Name("Today")
+                                .Location(TextEditorButtonLocation.After)
+                                .Widget(w => w.Button()
+                                    .StylingMode(ButtonStylingMode.Text)
+                                    .Icon("eyeopen")
+                                    .OnClick("passwordEyeClicked"));
+                        })).ValidationRules(rules => {
+                            rules.AddRequired().Message("Password is required");
+                        });
+                items.AddSimple()
+                    .Template("<div class='h-separator'></div>");
+                items.AddSimple()
+                    .Name("Password")
+                    .DataField("password")
+                    .Label(l => l.Text("Password"))
+                    .Editor(editor => editor.TextBox()
+                        .OnValueChanged("onPasswordValueChanged")
+                        .ValueChangeEvent("keyup")
+                        .Placeholder("Password")
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Mode(TextBoxMode.Password)
+                        .Buttons(buttons => {
+                            buttons.Add()
+                                .Name("Today")
+                                .Location(TextEditorButtonLocation.After)
+                                .Widget(w => w.Button()
+                                    .StylingMode(ButtonStylingMode.Text)
+                                    .Icon("eyeopen")
+                                    .OnClick("passwordEyeClicked"));
+                        })).ValidationRules(rules => {
+                            rules.AddRequired().Message("Password is required");
+                        });
+                items.AddSimple()
+                    .Name("ConfirmPassword")
+                    .DataField("confirmPassword")
+                    .Label(l => l.Text("Confirm Password"))
                         .Editor(editor => editor.TextBox()
-                            .Value("12345")
-                            .Placeholder("Current password")
-                            .StylingMode(EditorStylingMode.Filled)
-                            .Mode(TextBoxMode.Password)
+                        .Value("12345")
+                        .ValueChangeEvent("keyup")
+                        .Placeholder("Confirm password")
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Mode(TextBoxMode.Password)
                             .Buttons(buttons => {
                                 buttons.Add()
-                                    .Name("Today")
-                                    .Location(TextEditorButtonLocation.After)
-                                    .Widget(w => w.Button()
-                                        .StylingMode(ButtonStylingMode.Text)
-                                        .Icon("eyeopen")
-                                        .OnClick("passwordEyeClicked"));
-                            }));
-                    items.AddSimple()
-                        .Template("<div class='h-separator'></div>");
-                    items.AddSimple()
-                        .Label(l => l.Text("Password"))
-                        .Editor(editor => editor.TextBox()
-                            .Value("12345")
-                            .Placeholder("Password")
-                            .StylingMode(EditorStylingMode.Filled)
-                            .Mode(TextBoxMode.Password)
-                            .Buttons(buttons => {
-                                buttons.Add()
-                                    .Name("Today")
-                                    .Location(TextEditorButtonLocation.After)
-                                    .Widget(w => w.Button()
-                                        .StylingMode(ButtonStylingMode.Text)
-                                        .Icon("eyeopen")
-                                        .OnClick("passwordEyeClicked"));
-                            }));
-                    items.AddSimple()
-                        .Label(l => l.Text("Confirm Password"))
-                            .Editor(editor => editor.TextBox()
-                            .Value("12345")
-                            .Placeholder("Confirm password")
-                            .StylingMode(EditorStylingMode.Filled)
-                            .Mode(TextBoxMode.Password)
-                                .Buttons(buttons => {
-                                    buttons.Add()
-                                    .Name("Today")
-                                    .Location(TextEditorButtonLocation.After)
-                                    .Widget(w => w.Button()
-                                        .StylingMode(ButtonStylingMode.Text)
-                                        .Icon("eyeopen")
-                                        .OnClick("passwordEyeClicked"));
-                            }));
-                }))
-        }
+                                .Name("Today")
+                                .Location(TextEditorButtonLocation.After)
+                                .Widget(w => w.Button()
+                                    .StylingMode(ButtonStylingMode.Text)
+                                    .Icon("eyeopen")
+                                    .OnClick("passwordEyeClicked"));
+                        }))
+                    .ValidationRules(rules => {
+                        rules.AddRequired()
+                            .Message("Password is required");
+                        rules.AddCompare()
+                            .Message("'Password' and 'Confirm Password' do not match")
+                            .ComparisonTarget("comparePassword");
+                    });
+            }))
     </text>)
 )
-
-@using (Html.DevExtreme().NamedTemplate("SupervisorFieldTemplate"))
-{
-    <div class="pictured-item-select-field">
-        <img class="pictured-item-image" alt="<%- obj ? obj.name : '' %>"
-             src="data:image/png;base64,<%- obj ? obj.image : '' %>"/>
-        @(Html.DevExtreme().TextBox()
-            .Value(new JS("obj ? obj.name : ''"))
-        .ReadOnly(true)
-        .HoverStateEnabled(true)
-        .InputAttr(new
-        {
-            @picturedItemEditorInput = ""
-        }))
-    </div>
-}
 
 @using (Html.DevExtreme().NamedTemplate("CancelButton"))
 {
     @(Html.DevExtreme().Button()
+    .ID("form-cancel-button-id")
     .ElementAttr(new { @class = "cancel-button" })
     .Text("Cancel")
     .Disabled(true)
@@ -301,9 +321,10 @@
 @using (Html.DevExtreme().NamedTemplate("SaveButton"))
 {
     @(Html.DevExtreme().Button()
+    .ID("form-save-button-id")
     .Text("Save")
     .Icon("save")
-    .Disabled(false)
+    .Disabled(true)
     .StylingMode(ButtonStylingMode.Contained)
     .Type(ButtonType.Default)
     .OnClick("onTSave"))

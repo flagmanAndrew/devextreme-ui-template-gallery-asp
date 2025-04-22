@@ -1,4 +1,8 @@
-
+let passwordFormData = {
+    currentPassword: "12345",
+    password: "12345",
+    confirmPassword: "12345"
+}
 
 const formatPhone = (value: string) => {
     return String(value).replace(/(\d{3})(\d{3})(\d{4})/, '+1($1)$2-$3');
@@ -13,7 +17,12 @@ function handleChangePasswordClick(e: DevExpress.ui.dxButton.ClickEvent) {
 }
 
 function onTCancel(e: DevExpress.ui.dxButton.ClickEvent) {
+    $("#basic-info-id").dxForm("instance").reset();
+    $("#contact-info-id").dxForm("instance").reset();
+    $("#address-info-id").dxForm("instance").reset();
 
+    $("#form-save-button-id").dxButton("instance").option("disabled", true);
+    $("#form-cancel-button-id").dxButton("instance").option("disabled", true);
 }
 
 function onTSave(e: DevExpress.ui.dxButton.ClickEvent) {
@@ -40,5 +49,40 @@ function passwordEyeClicked(e: DevExpress.ui.dxButton.ClickEvent) {
     if (textBox) {
         const isPasswordMode = textBox.option("mode") === "password";
         textBox.option("mode", isPasswordMode ? "text" : "password");
+    }
+}
+
+function onPasswordValueChanged(e: DevExpress.ui.dxTextBox.ValueChangedEvent) {
+    const editor = $("#password-reset-id").dxForm("instance").getEditor("ConfirmPassword");
+    if (editor?.option("value")) {
+        editor?.element().dxValidator('validate');
+    }
+}
+
+function comparePassword() {
+    const editor = $("#password-reset-id").dxForm("instance").getEditor("Password");
+    let value = "";
+    if (editor?.option("value")) {
+        value = editor?.option("value");
+    }
+    return value;
+}
+
+function formDataChanged(e: DevExpress.ui.dxForm.OptionChangedEvent) {
+    if (e.component.option("isDirty")) {
+        $("#form-save-button-id").dxButton("instance").option("disabled", false);
+        $("#form-cancel-button-id").dxButton("instance").option("disabled", false);
+    } else {
+        $("#form-save-button-id").dxButton("instance").option("disabled", true);
+        $("#form-cancel-button-id").dxButton("instance").option("disabled", true);
+    }
+}
+
+function passwordResetOptionChanged(e: DevExpress.ui.dxForm.FieldDataChangedEvent) {
+    const result = e.component.validate();
+    if (result.isValid) {
+        $("#reset-save-button").dxButton("instance").option("disabled", false);
+    } else {
+        $("#reset-save-button").dxButton("instance").option("disabled", true);
     }
 }
