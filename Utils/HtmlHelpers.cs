@@ -100,7 +100,6 @@ namespace DevExtremeVSTemplateMVC.Utils
                                 @class = "pictured-item-select-box",
                             })
                             .ValueExpr("Name")
-                            //.DisplayExpr("name")
                             .StylingMode(EditorStylingMode.Filled)
                             .LabelMode(EditorLabelMode.Hidden)
                             .Width("100%")
