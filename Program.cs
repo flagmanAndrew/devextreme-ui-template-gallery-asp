@@ -1,3 +1,8 @@
+﻿using DevExtremeVSTemplateMVC.DAL;
+using DevExtremeVSTemplateMVC.Middleware;
+using DevExtremeVSTemplateMVC.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,17 +16,42 @@ if (builder.Environment.IsDevelopment()) {
     viewBuilder.AddRazorRuntimeCompilation();
 }
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IDbConnectionAccessor, DbConnectionAccessor>();
+builder.Services.AddScoped<DemoDbContext>(provider => {
+    var conn = provider.GetRequiredService<IDbConnectionAccessor>().GetConnection();
+    var options = new DbContextOptionsBuilder<DemoDbContext>()
+        .UseSqlite(conn)
+        .Options;
+
+    return new DemoDbContext(options);
+});
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = SessionDbContextMiddleware.CACHE_IDLE_TIMEOUT;
+});
+
 var app = builder.Build();
+
+app.Lifetime.ApplicationStarted.Register(async () => {
+    using var scope = app.Services.CreateScope();
+    var httpClient = scope.ServiceProvider.GetRequiredService<HttpClient>();
+    await DemoDataFetcher.Download(httpClient, builder.Configuration);
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
+app.UseSession();
+
+app.UseMiddleware<SessionDbContextMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
