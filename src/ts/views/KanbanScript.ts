@@ -6,7 +6,7 @@ const boardMenuItems = [
 
 const STATUS_ITEMS = ['Open', 'In Progress', 'Deferred', 'Completed'];
 
-$.get("/api/FilteredTasks", function (data: any) {
+$.get("/api/Tasks", function (data: any) {
     console.log("Filtered:", data);
     //debugger;
     //$("#task-list-id");

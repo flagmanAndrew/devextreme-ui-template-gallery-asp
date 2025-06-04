@@ -40,7 +40,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         [HttpPost]
         public IActionResult TaskMainSortable([FromForm] string filteredTasks)
         {
-            List<TaskModel> model = JsonConvert.DeserializeObject<List<TaskModel>>(filteredTasks);
+            List<EmployeeTask> model = JsonConvert.DeserializeObject<List<EmployeeTask>>(filteredTasks);
             return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", model);
         }
 

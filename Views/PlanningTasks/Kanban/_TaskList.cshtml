@@ -5,8 +5,6 @@
 @using Microsoft.AspNetCore.Mvc.Rendering
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 
-<script lang="ts">
-</script>
 
 @{
     string htmlString;
@@ -16,7 +14,7 @@
         var originalWriter = ViewContext.Writer;
         ViewContext.Writer = writer;
 
-        foreach (TaskModel item in Model.TaskList)
+        foreach (EmployeeTask item in Model.TaskList)
         {
             if (item.Status == Model.Status)
             {
@@ -35,7 +33,7 @@
                             <div class='card-subject theme-text-color'>@item.Text</div>
                             <div class='card-data'>
                                 <span class='priority'>@item.Priority</span>
-                                <span class='date theme-text-color'>@item.DueDate.ToString("MM/dd/yyy")</span>
+                                <span class='date theme-text-color'>@item.DueDate?.ToString("MM/dd/yyy")</span>
                             </div>
                             <div class='card-assignee'>
                                 <span class='company theme-text-color'>@item.Company</span>
@@ -63,6 +61,21 @@
     <div class="list-title theme-text-color">
         <span>@Model.Status</span>
         @* CardMenu *@
+        @(
+            Html.DevExtreme().DropDownButton()
+                .ElementAttr(new
+                {
+                    @class="overflow-menu"
+                })
+                .DataSource(new JS("boardMenuItems"))
+                .KeyExpr("text")
+                .DisplayExpr("text")
+                .Visible(true)
+                .Icon("overflow")
+                .StylingMode(ButtonStylingMode.Text)
+                .ShowArrowIcon(false)
+                .DropDownOptions(options => options.Width("auto"))
+            )
     </div>
     @(Html.DevExtreme().ScrollView()
         .ElementAttr(new { @class = "scrollable-list" })
@@ -73,8 +86,7 @@
                 .ElementAttr(new { @class = "sortable-cards" })
                 .Group("cardsGroup")
                 .Data("Index")
-                .Handle(".list-title")
-                .OnReorder("onListReorder")
+                .MoveItemOnDrop(true)
                 .Content(htmlString))
         <div class="add-task">
             @(Html.DevExtreme().Button()
