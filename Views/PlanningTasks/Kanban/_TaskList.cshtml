@@ -20,7 +20,7 @@
             {
                 var priority = item.Priority.ToLower();
 
-                <div class='kanban-card dx-card theme-text-color theme-bg-color' onclick="navigateToDetails()">
+                <div class='kanban-card dx-card theme-text-color theme-bg-color' data-task-id="@item.TaskId" onclick="navigateToDetails()">
                     <div class="card-wrapper priority-@priority">
                         <div class='card-priority'></div>
                         @(Html.DevExtreme().Button()
@@ -30,7 +30,7 @@
                             .OnClick("onClick")
                         )
                         <div class='card-content'>
-                            <div class='card-subject theme-text-color'>@item.Text</div>
+                            <div class='card-subject theme-text-color'>@item.TaskId @item.Text</div>
                             <div class='card-data'>
                                 <span class='priority'>@item.Priority</span>
                                 <span class='date theme-text-color'>@item.DueDate?.ToString("MM/dd/yyy")</span>
@@ -86,6 +86,8 @@
                 .Group("cardsGroup")
                 .Data("Index")
                 .MoveItemOnDrop(true)
+                .OnAdd("onTaskDrop")
+                .OnReorder("onTaskDrop")
                 .Content(htmlString))
         <div class="add-task">
             @(Html.DevExtreme().Button()

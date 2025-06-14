@@ -5,6 +5,7 @@ using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers
@@ -50,6 +51,16 @@ namespace DevExtremeVSTemplateMVC.Controllers
             }
 
             _context.SaveChanges();
+
+            Debug.WriteLine(
+                "Saved: "+string.Join(
+                    ", ",
+                    _context.Tasks
+                        .Where(t => t.Status == "Deferred")
+                        .Select(t => $"TaskId: {t.TaskId}, Text: {t.Text}, Status: {t.Status}")
+                )
+            );
+
             return Ok();
         }
 

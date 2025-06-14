@@ -1,16 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DevExtremeVSTemplateMVC.DAL;
 using DevExtremeVSTemplateMVC.Models;
+using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DemoDbContext _context;
+
+        public HomeController(DemoDbContext context, IHttpContextAccessor accessor)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return RedirectToAction("PlanningTasks", "Home");
@@ -38,10 +48,25 @@ namespace DevExtremeVSTemplateMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult TaskMainSortable([FromForm] string filteredTasks)
+        public IActionResult TaskMainSortable()
         {
-            List<EmployeeTask> model = JsonConvert.DeserializeObject<List<EmployeeTask>>(filteredTasks);
-            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", model);
+            var tasks = _context.Tasks.ToList();
+
+
+            Console.WriteLine(
+                "Loaded: " + string.Join(
+                    ", ",
+                    _context.Tasks
+                        .Where(t => t.Status == "Deferred")
+                        .Select(t => $"TaskId: {t.TaskId}, Text: {t.Text}, Status: {t.Status}")
+                )
+            );
+
+            var userId = "demo-user";
+            var order = _context.KanbanOrders.FirstOrDefault(x => x.UserId == userId);
+            ViewBag.StatusOrder = order?.Statuses ?? new[] { "Open", "In Progress", "Deferred", "Completed" };
+
+            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", tasks);
         }
 
         #region Partial Views

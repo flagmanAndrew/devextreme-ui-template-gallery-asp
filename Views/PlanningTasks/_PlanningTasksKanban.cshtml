@@ -15,6 +15,7 @@
             .ItemOrientation(Orientation.Horizontal)
             .Handle(".list-title")
             .MoveItemOnDrop(true)
+            .OnReorder("onStatusReorder")
             .Content(@<text>
                 @(Html.DevExtreme().LoadPanel()
                 .ID("kanban-load-panel")
