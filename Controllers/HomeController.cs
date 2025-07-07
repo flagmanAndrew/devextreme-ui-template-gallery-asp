@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DevExtremeVSTemplateMVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevExtremeVSTemplateMVC.Controllers
 {
@@ -19,9 +18,37 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View();
         }
 
-        public IActionResult PlanningTasks() {
-            return View("../PlanningTasks/PlanningTasks");
+        [Route("Home/PlanningTasks/{viewType}")]
+        public IActionResult PlanningTasks(string viewType) {
+            switch (viewType.ToLower()) {
+                case "grid":
+                    return View("../PlanningTasks/PlanningTasksGrid");
+                case "kanban":
+                    return View("../PlanningTasks/PlanningTasksKanban");
+                case "gantt":
+                    return View("../PlanningTasks/PlanningTasksGantt");
+                case "":
+                    return View("../PlanningTasks/PlanningTasksGrid");
+                default:
+                    return NotFound();
+            }
         }
+
+        //public IActionResult PlanningTasks() {
+        //    return View("../PlanningTasks/PlanningTasksGrid");
+        //}
+
+        //public IActionResult PlanningTasksGrid() {
+        //    return View("../PlanningTasks/PlanningTasksGrid");
+        //}
+
+        //public IActionResult PlanningTasksKanban() {
+        //    return View("../PlanningTasks/PlanningTasksKanban");
+        //}
+
+        //public IActionResult PlanningTasksGantt() {
+        //    return View("../PlanningTasks/PlanningTasksGantt");
+        //}
 
         public IActionResult UserProfile()
         {

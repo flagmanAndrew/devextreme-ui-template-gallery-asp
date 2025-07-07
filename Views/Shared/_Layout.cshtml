@@ -137,7 +137,7 @@
             }
 
             @(
-                    Html.DevExtreme().TreeView()
+               Html.DevExtreme().TreeView()
                     .ID("navigationTree")
                     .Items(items =>
                     {
@@ -146,39 +146,39 @@
                         .Items(planningItems =>
                         {
                             planningItems.Add()
-                            .Text("Home (to be removed)")
-                            .Option(pathFieldName, GetUrl("Index"))
-                            .Selected(IsCurrentUrl("Index"));
+                                .Text("Home (to be removed)")
+                                .Option(pathFieldName, GetUrl("Index"))
+                                .Selected(IsCurrentUrl("Index"));
                             planningItems.Add()
-                            .Text("Task List")
-                            .Option(pathFieldName, GetUrl("PlanningTasks"))
-                            .Selected(IsCurrentUrl("PlanningTasks"));
+                                .Text("Task List")
+                                .Option(pathFieldName, "/Home/PlanningTasks/Grid")
+                                .Selected(GetCurrentUrl().Contains("PlanningTasks"));
                         });
                         items.Add().Text("Authentication").Icon("user")
                         .Expanded(true)
                         .Items(authItems =>
                         {
                             authItems.Add()
-                            .Text("Sign In Form")
-                            .Option(pathFieldName, GetUrl("Login"))
-                            .Selected(IsCurrentUrl("Login"));
+                                .Text("Sign In Form")
+                                .Option(pathFieldName, GetUrl("Login"))
+                                .Selected(IsCurrentUrl("Login"));
                             authItems.Add()
-                            .Text("Sign Up Form")
-                            .Option(pathFieldName, GetUrl("SignUp"))
-                            .Selected(IsCurrentUrl("SignUp"));
+                                .Text("Sign Up Form")
+                                .Option(pathFieldName, GetUrl("SignUp"))
+                                .Selected(IsCurrentUrl("SignUp"));
                             authItems.Add()
-                            .Text("Reset Password")
-                            .Option(pathFieldName, GetUrl("ForgotPassword"))
-                            .Selected(IsCurrentUrl("ForgotPassword"));
+                                .Text("Reset Password")
+                                .Option(pathFieldName, GetUrl("ForgotPassword"))
+                                .Selected(IsCurrentUrl("ForgotPassword"));
                         });
                         items.Add().Text("Common").Icon("box")
                         .Expanded(true)
                         .Items(commonItems =>
                         {
                             commonItems.Add()
-                            .Text("User Profile")
-                            .Option(pathFieldName, GetUrl("UserProfile"))
-                            .Selected(IsCurrentUrl("UserProfile"));
+                                .Text("User Profile")
+                                .Option(pathFieldName, GetUrl("UserProfile"))
+                                .Selected(IsCurrentUrl("UserProfile"));
                         });
                     })
                     .ExpandEvent(TreeViewExpandEvent.Click)
@@ -187,7 +187,7 @@
                     .FocusStateEnabled(false)
                     .Width("100%")
                     .OnItemClick("LayoutController.onTreeViewItemClick")
-                    )
+            )
             </div>
             <footer class="footer">
                 Copyright &copy; <span id="year"></span> <br />
@@ -331,7 +331,10 @@
                 window.navigation.addEventListener("navigate", (e) => {
                     const tree = $("#navigationTree").dxTreeView("instance");
                     const leafs = tree.option("items").reduce((acc, cur) => { return [...acc, ...cur.items] }, []);
-                    const targetItem = leafs.find(i => e.destination.url === ('@baseUri' + i.path));
+                    const targetItem = leafs.find(i => 
+                        e.destination.url === ('@baseUri' + i.path) ||
+                        (e.destination.url.includes("PlanningTasks") && i.path.includes("PlanningTasks"))
+                    );
                     tree.selectItem(targetItem);
                 });
                 updateDrawer();

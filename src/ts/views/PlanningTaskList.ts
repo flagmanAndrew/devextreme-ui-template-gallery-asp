@@ -3,15 +3,11 @@ function addTask() {
 }
 
 function tabValueChange(e: DevExpress.ui.dxTabs.ItemClickEvent) {
-    let url: string = "../Home/GetPlanningTasks";
+    let url: string = "/Home/PlanningTasks/";
     if (e.itemData.text === "List") url += "Grid";
     if (e.itemData.text === "Kanban Board") url += "Kanban";
     if (e.itemData.text === "Gantt") url += "Gantt";
-    $("#planning-load-panel").dxLoadPanel("show");
-    $.get(url).then(data => {
-        $(".planning-tasks-content").html(data)
-        $("#planning-load-panel").dxLoadPanel("hide");
-    });
+    SPARouter.navigate(url);
 }
 
 function reload() {
