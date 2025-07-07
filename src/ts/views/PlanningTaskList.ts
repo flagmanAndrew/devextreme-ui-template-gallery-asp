@@ -12,10 +12,7 @@
     }
 
     function tabValueChange(e: DevExpress.ui.dxTabs.ItemClickEvent) {
-        let url: string = "/Home/PlanningTasks/";
-        if (e.itemData.text === "List") url += "Grid";
-        if (e.itemData.text === "Kanban Board") url += "Kanban";
-        if (e.itemData.text === "Gantt") url += "Gantt";
+        let url: string = `/Home/PlanningTasks/${e.itemData.value}`;
         currentView = e.itemData.value;
         window.uitgAppContext.SPARouter.navigate(url);
     }
