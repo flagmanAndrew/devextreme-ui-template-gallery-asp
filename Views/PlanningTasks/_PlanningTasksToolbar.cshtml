@@ -1,37 +1,27 @@
 ﻿<link href="~/css/views/planningtasklist.css" rel="stylesheet" />
-<link href="~/css/components/tasklistgrid.css" rel="stylesheet" />
 <link href="~/css/components/StatusSelectBox.css" rel="stylesheet" />
-<link href="~/css/components/TaskListKanban.css" rel="stylesheet" />
-<link href="~/css/components/TaskKanbanCard.css" rel="stylesheet" />
-<link href="~/css/components/CardMenu.css" rel="stylesheet" />
-
 <script src="~/js/views/planningtasklist.js"></script>
 
+@{
+    int selectedTabIndex = 0;
+    if (this.Context.Request.Path.Value.Contains("Kanban")) selectedTabIndex = 1;
+    if (this.Context.Request.Path.Value.Contains("Gantt")) selectedTabIndex = 2;
+}
 
-@(Html.DevExtreme().LoadPanel()
-    .Width("auto")
-    .ShowPane(true)
-    .Visible(false)
-    .Container(".content")
-    .Position(p => p.Of(".content"))
-    .ID("planning-load-panel")
-)
-
-<div class="view-wrapper view-wrapper-task-list list-page">
-    @(Html.DevExtreme().Toolbar()
-        .ElementAttr(new { @class = "toolbar-common theme-dependent" })
-        .ID("tasksToolbar")        
-        .Items(items =>
-        {
-            items.Add().Location(ToolbarItemLocation.Before)
+@(Html.DevExtreme().Toolbar()
+    .ElementAttr(new { @class = "toolbar-common theme-dependent" })
+    .ID("tasksToolbar")
+    .Items(items =>
+    {
+        items.Add().Location(ToolbarItemLocation.Before)
             .Template(@<text>
                 <span class="toolbar-header">Tasks</span>
             </text>);
 
-            items.Add().Location(ToolbarItemLocation.Before)
+        items.Add().Location(ToolbarItemLocation.Before)
             .Template(new TemplateName("TabsView"));
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .CssClass("add-grid-row")
             .Widget(w => w.Button()
@@ -41,7 +31,7 @@
                 .StylingMode(ButtonStylingMode.Contained)
             .OnClick("uitgAppContext.PlanningTasksController.addTask"));
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.Button()
                 .Text("Refresh")
@@ -50,7 +40,7 @@
             .OnClick("uitgAppContext.PlanningTasksController.reload"))
             .ShowText(ToolbarItemShowTextMode.InMenu);   
             
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .ShowText(ToolbarItemShowTextMode.InMenu)
@@ -61,13 +51,13 @@
                 .StylingMode(ButtonStylingMode.Text)
             .OnClick("uitgAppContext.PlanningTasksController.chooseColumnDataGrid"));
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Template(@<text>
                 <div class="separator"></div>
             </text>);
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() === 'Kanban'"))
             .Option("name", "ExportPDF")
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -78,7 +68,7 @@
                 .StylingMode(ButtonStylingMode.Text)
                 .OnClick("uitgAppContext.PlanningTasksController.exportToPdf"));
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "ExportExcel")
             .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
@@ -89,35 +79,30 @@
                 .StylingMode(ButtonStylingMode.Text)
                 .OnClick("uitgAppContext.PlanningTasksController.exportToXlsx"));
 
-            items.Add().Location(ToolbarItemLocation.After)
+        items.Add().Location(ToolbarItemLocation.After)
             .Option("name", "SearchItem")
             .Disabled(new JS("uitgAppContext.PlanningTasksController.getCurrentView() !== 'Grid'"))
             .LocateInMenu(ToolbarItemLocateInMenuMode.Auto)
             .Widget(w => w.TextBox()
                 .Placeholder("Task Search")
                 .Mode(TextBoxMode.Search)
-            .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
-        })
-    )
-    <div class="planning-tasks-content">
-        @await Html.PartialAsync("../PlanningTasks/_PlanningTasksGrid")
-    </div>
-</div>
+                .OnInput("uitgAppContext.PlanningTasksController.searchDataGrid"));
+    })
+)
 
 @using (Html.DevExtreme().NamedTemplate("TabsView"))
 {
-    @(
-    Html.DevExtreme().Tabs()
+    @(Html.DevExtreme().Tabs()
         .ID("tasksTabs")
         .Width(new JS("uitgAppContext.PlanningTasksController.getTabsWidth()"))
         .ShowNavButtons(false)
         .ScrollByContent(true)
-        .SelectedIndex(0)
+        .SelectedIndex(selectedTabIndex)
         .Items(items =>
         {
             items.Add().Text("List").Option("value", "Grid");
-                items.Add().Text("Kanban Board").Option("value", "Kanban");
-                items.Add().Text("Gantt").Option("value", "Gantt");
+            items.Add().Text("Kanban Board").Option("value", "Kanban");
+            items.Add().Text("Gantt").Option("value", "Gantt");
         })
         .OnItemClick("uitgAppContext.PlanningTasksController.tabValueChange")
     )
