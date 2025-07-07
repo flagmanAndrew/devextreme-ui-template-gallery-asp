@@ -11,7 +11,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("PlanningTasks/Grid", "Home");
         }
 
         public IActionResult About() {
@@ -34,22 +34,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
             }
         }
 
-        //public IActionResult PlanningTasks() {
-        //    return View("../PlanningTasks/PlanningTasksGrid");
-        //}
-
-        //public IActionResult PlanningTasksGrid() {
-        //    return View("../PlanningTasks/PlanningTasksGrid");
-        //}
-
-        //public IActionResult PlanningTasksKanban() {
-        //    return View("../PlanningTasks/PlanningTasksKanban");
-        //}
-
-        //public IActionResult PlanningTasksGantt() {
-        //    return View("../PlanningTasks/PlanningTasksGantt");
-        //}
-
         public IActionResult UserProfile()
         {
             return View("../CommonUserProfile/UserProfile", ProfileData.Profiles[0]);
@@ -65,6 +49,13 @@ namespace DevExtremeVSTemplateMVC.Controllers
 
         public IActionResult ForgotPassword() {
             return View("../Auth/ForgotPassword");
+        }
+
+        [HttpPost]
+        public IActionResult TaskMainSortable([FromForm] string filteredTasks)
+        {
+            List<TaskModel> model = JsonConvert.DeserializeObject<List<TaskModel>>(filteredTasks);
+            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", model);
         }
 
         #region Partial Views

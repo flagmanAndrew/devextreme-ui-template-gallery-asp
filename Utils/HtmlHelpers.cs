@@ -22,7 +22,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
-                .OnOptionChanged("formDataChanged")
+                .OnOptionChanged("uitgAppContext.UserProfileController.formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.FirstName)
@@ -69,7 +69,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
-                .OnOptionChanged("formDataChanged")
+                .OnOptionChanged("uitgAppContext.UserProfileController.formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.Phone)
@@ -126,7 +126,7 @@ namespace DevExtremeVSTemplateMVC.Utils
                 .ShowColonAfterLabel(true)
                 .LabelLocation(FormLabelLocation.Top)
                 .LabelMode(FormLabelMode.Outside)
-                .OnOptionChanged("formDataChanged")
+                .OnOptionChanged("uitgAppContext.UserProfileController.formDataChanged")
                 .Items(items =>
                 {
                     items.AddSimpleFor(m => m.Country)
@@ -152,6 +152,12 @@ namespace DevExtremeVSTemplateMVC.Utils
                 });
 
             return form;
+        }
+
+        public static string FormatPhone(this IHtmlHelper Html, string value)
+        {
+            if (value == null) return "";
+            return System.Text.RegularExpressions.Regex.Replace(value, @"(\d{3})(\d{3})(\d{4})", "+1($1)$2-$3");
         }
     }
 }
