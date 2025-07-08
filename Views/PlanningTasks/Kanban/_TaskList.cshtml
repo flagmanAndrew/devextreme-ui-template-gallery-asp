@@ -63,7 +63,11 @@
                 {
                     @class="overflow-menu"
                 })
-                .DataSource(new JS("window.boardMenuItems"))
+                .DataSource(new[] {
+                    new { text = "Add card" },
+                    new { text = "Copy list" },
+                    new { text = "Move list" }
+                })
                 .KeyExpr("text")
                 .DisplayExpr("text")
                 .Visible(true)

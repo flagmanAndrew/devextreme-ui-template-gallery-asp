@@ -62,28 +62,23 @@ namespace DevExtremeVSTemplateMVC.Controllers
             {
                 var status = task.Status;
                 var tasksWithSameStatus = _context.Tasks
-                    .Where(t => t.Status == status && t.TaskId != task.TaskId && t.OrderIndex >= newOrderIndex.Value-1)
-                    .OrderByDescending(t => t.OrderIndex)
+                    .Where(t => t.Status == status && t.TaskId != task.TaskId && t.OrderIndex >= newOrderIndex.Value)
+                    .OrderBy(t => t.OrderIndex)
                     .ToList();
 
-                foreach (var t in tasksWithSameStatus)
+                for(int i = 0; i < tasksWithSameStatus.Count; i++)
                 {
-                    t.OrderIndex += 1;
+                    tasksWithSameStatus[i].OrderIndex = (int)(newOrderIndex + 1 + i);
                 }
 
-                tasksWithSameStatus.Where(t => t.TaskId == task.TaskId).ToList().ForEach(t => t.OrderIndex = newOrderIndex.Value-1);
+                // Create a JSON string for the value
+                string json = $"{{\"OrderIndex\": {newOrderIndex} }}";
+                // Deserialize to Dictionary<string, JsonElement>
+                var orderIndexDict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
+                PopulateModel(task, orderIndexDict);
             }
 
             _context.SaveChanges();
-
-            Debug.WriteLine(
-                "Saved: "+string.Join(
-                    ", ",
-                    _context.Tasks
-                        .Where(t => t.Status == "Deferred")
-                        .Select(t => $"TaskId: {t.TaskId}, Text: {t.Text}, Status: {t.Status}")
-                )
-            );
 
             return Ok();
         }

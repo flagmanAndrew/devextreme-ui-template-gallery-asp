@@ -1,22 +1,40 @@
-window.boardMenuItems = [
-    { text: 'Add card' },
-    { text: 'Copy list' },
-    { text: 'Move list' },
-];
+//import 'devextreme-aspnet-data';
 
-function loadKanban() {
-    $.ajax({
-        url: '/Home/TaskMainSortable',
-        type: 'POST',
-        success: function (cont: any) {
-            $("#kanban-load-panel").dxLoadPanel("instance").hide();
-            $("#kanban-sortable-id").html(cont);
-        },
-        error: function (xhr) {
-            console.error('Error:', xhr.status, xhr.statusText, xhr.responseText);
+// @ts-ignore
+const kanbanOrderStore = DevExpress.data.AspNet.createStore({
+    key: 'Id',
+    loadUrl: `/api/KanbanOrder/GetOrder`,
+    insertUrl: `/api/KanbanOrder/UpdateOrder`,
+    onBeforeSend(method:any, ajaxOptions:any) {
+        ajaxOptions.xhrFields = { withCredentials: true };
+        ajaxOptions.contentType = "application/json";
+        ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+    },
+});
+
+// @ts-ignore
+const tasksStore = DevExpress.data.AspNet.createStore({
+    key: "TaskId",
+    updateUrl: "/api/Tasks/UpdateTask",
+    onBeforeSend(method: any, ajaxOptions: any) {
+        if (method === "update") {
+            const { key, values } = ajaxOptions.data;
+            const formData = new FormData();
+            formData.append('key', key);
+
+            if (typeof values === "string") {
+                formData.append('values', values);
+            } else {
+                formData.append('values', JSON.stringify(values));
+            }
+
+            ajaxOptions.data = formData;
+            ajaxOptions.contentType = false;
+            ajaxOptions.processData = false;
         }
-    });
-}
+    }
+});
+
 
 const reorder = <T,>(items: T[], item: T, fromIndex: number, toIndex: number) => {
     let result = items;
@@ -46,12 +64,7 @@ function onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
 
     console.log("New order of statuses:", newOrder, e);
 
-    $.ajax({
-        url: '/api/KanbanOrder/UpdateOrder',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ statuses: newOrder }),
-    });
+    kanbanOrderStore.insert({ Statuses: newOrder });
 }
 
 function navigateToDetails() {
@@ -79,18 +92,5 @@ function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSorta
 
     if (!taskId || !newStatus) return;
 
-    $.ajax({
-        url: '/api/Tasks/UpdateTask',
-        type: 'PUT',
-        data: {
-            key: taskId,
-            values: JSON.stringify({ Status: newStatus, NewOrderIndex: e.toIndex })
-        },
-        success: function (res) {
-            console.log("Task status updated", res);
-        },
-        error: function (xhr) {
-            console.error('Error updating task status:', xhr.status, xhr.statusText);
-        }
-    });
+    tasksStore.update(taskId, { Status: newStatus, NewOrderIndex: e.toIndex });
 }

@@ -48,20 +48,6 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return View("../Auth/ForgotPassword");
         }
 
-        [HttpPost]
-        public IActionResult TaskMainSortable()
-        {
-
-            var tasks = _context.Tasks.ToList();
-            var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
-
-            return PartialView("../PlanningTasks/Kanban/_TaskMainSortable", new TaskMainSortableViewModel
-            {
-                Tasks = tasks,
-                StatusOrder = taskLists
-            });
-        }
-
         #region Partial Views
         public ActionResult GetPlanningTasksGrid() {
             return PartialView("../PlanningTasks/_PlanningTasksGrid");
@@ -70,7 +56,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
             return PartialView("../PlanningTasks/_PlanningTasksGantt");
         }
         public ActionResult GetPlanningTasksKanban() {
-            return PartialView("../PlanningTasks/_PlanningTasksKanban");
+            var tasks = _context.Tasks.Where(t => t.Status != "").ToList();
+            var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
+
+            return PartialView("../PlanningTasks/_PlanningTasksKanban", new TaskMainSortableViewModel
+            {
+                Tasks = tasks,
+                StatusOrder = taskLists
+            });
         }
         #endregion
 

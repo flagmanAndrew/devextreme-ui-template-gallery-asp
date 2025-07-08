@@ -3,6 +3,8 @@ using DevExtremeVSTemplateMVC.Models;
 using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace DevExtremeVSTemplateMVC.Controllers { 
 
@@ -18,10 +20,27 @@ namespace DevExtremeVSTemplateMVC.Controllers {
         }
 
         [HttpPost("UpdateOrder")]
-        public IActionResult UpdateOrder([FromBody] KanbanOrderDto orderDto)
+        public IActionResult UpdateOrder([FromBody] JsonElement data)
         {
-            if (orderDto.Statuses == null)
+            if (!data.TryGetProperty("values", out var valuesElement))
                 return BadRequest();
+
+            var valuesStr = valuesElement.GetString();
+            if (string.IsNullOrEmpty(valuesStr))
+                return BadRequest("Empty values");
+
+            KanbanOrderDto orderDto;
+            try
+            {
+                orderDto = JsonSerializer.Deserialize<KanbanOrderDto>(valuesStr);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Deserialization error: " + ex.Message);
+            }
+
+            if (orderDto?.Statuses == null)
+                return BadRequest("Statuses are missing");
 
             // Fetch all TaskLists that match the provided statuses
             var taskLists = _context.TaskLists
