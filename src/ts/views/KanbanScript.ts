@@ -1,96 +1,102 @@
-//import 'devextreme-aspnet-data';
+(function () {
+    if (window.uitgAppContext?.KanbanTasksController) return;
 
-// @ts-ignore
-const kanbanOrderStore = DevExpress.data.AspNet.createStore({
-    key: 'Id',
-    loadUrl: `/api/KanbanOrder/GetOrder`,
-    insertUrl: `/api/KanbanOrder/UpdateOrder`,
-    onBeforeSend(method:any, ajaxOptions:any) {
-        ajaxOptions.xhrFields = { withCredentials: true };
-        ajaxOptions.contentType = "application/json";
-        ajaxOptions.data = JSON.stringify(ajaxOptions.data);
-    },
-});
+    // @ts-ignore
+    const kanbanOrderStore = DevExpress.data.AspNet.createStore({
+        key: 'Id',
+        loadUrl: `/api/KanbanOrder/GetOrder`,
+        insertUrl: `/api/KanbanOrder/UpdateOrder`,
+        onBeforeSend(method:any, ajaxOptions:any) {
+            ajaxOptions.xhrFields = { withCredentials: true };
+            ajaxOptions.contentType = "application/json";
+            ajaxOptions.data = JSON.stringify(ajaxOptions.data);
+        },
+    });
 
-// @ts-ignore
-const tasksStore = DevExpress.data.AspNet.createStore({
-    key: "TaskId",
-    updateUrl: "/api/Tasks/UpdateTask",
-    onBeforeSend(method: any, ajaxOptions: any) {
-        if (method === "update") {
-            const { key, values } = ajaxOptions.data;
-            const formData = new FormData();
-            formData.append('key', key);
+    // @ts-ignore
+    const tasksStore = DevExpress.data.AspNet.createStore({
+        key: "TaskId",
+        updateUrl: "/api/Tasks/UpdateTask",
+        onBeforeSend(method: any, ajaxOptions: any) {
+            if (method === "update") {
+                const { key, values } = ajaxOptions.data;
+                const formData = new FormData();
+                formData.append('key', key);
 
-            if (typeof values === "string") {
-                formData.append('values', values);
-            } else {
-                formData.append('values', JSON.stringify(values));
+                if (typeof values === "string") {
+                    formData.append('values', values);
+                } else {
+                    formData.append('values', JSON.stringify(values));
+                }
+
+                ajaxOptions.data = formData;
+                ajaxOptions.contentType = false;
+                ajaxOptions.processData = false;
             }
-
-            ajaxOptions.data = formData;
-            ajaxOptions.contentType = false;
-            ajaxOptions.processData = false;
         }
-    }
-});
+    });
 
 
-const reorder = <T,>(items: T[], item: T, fromIndex: number, toIndex: number) => {
-    let result = items;
-    if (fromIndex >= 0) {
-        result = [...result.slice(0, fromIndex), ...result.slice(fromIndex + 1)];
-    }
-
-    if (toIndex >= 0) {
-        result = [...result.slice(0, toIndex), item, ...result.slice(toIndex)];
-    }
-
-    return result;
-};
-
-function onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
-    $("#sortable-id").dxSortable('instance');
-}
-
-function onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
-    let newOrder: string[] = [];
-    $(".list-title span").each(function () {
-        const text = $(this).text();
-        if (newOrder.indexOf(text) === -1) {
-            newOrder.push(text);
+    const reorder = <T,>(items: T[], item: T, fromIndex: number, toIndex: number) => {
+        let result = items;
+        if (fromIndex >= 0) {
+            result = [...result.slice(0, fromIndex), ...result.slice(fromIndex + 1)];
         }
-    })
 
-    console.log("New order of statuses:", newOrder, e);
+        if (toIndex >= 0) {
+            result = [...result.slice(0, toIndex), item, ...result.slice(toIndex)];
+        }
 
-    kanbanOrderStore.insert({ Statuses: newOrder });
-}
+        return result;
+    };
 
-function navigateToDetails() {
-    console.log("Navigating to task details...");
-}
+    function onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
+        $("#sortable-id").dxSortable('instance');
+    }
 
-function onClick(item:any) {
-    console.log("Edit button clicked for item:", item);
-}
+    function onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent) {
+        let newOrder: string[] = [];
+        $(".list-title span").each(function () {
+            const text = $(this).text();
+            if (newOrder.indexOf(text) === -1) {
+                newOrder.push(text);
+            }
+        })
 
-function changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent) {
+        kanbanOrderStore.insert({ Statuses: newOrder });
+    }
 
-}
-function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) {
+    function navigateToDetails() {
+    }
 
-}
+    function onClick(item:any) {
+    }
 
-function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent) {
+    function changePopupVisibility(e: DevExpress.ui.dxButton.ClickEvent) {
 
-    console.log("Task dropped", e);
+    }
+    function onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent) {
 
-    const $item = $(e.itemElement);
-    const taskId = $item.data("task-id");
-    const newStatus = e.toComponent.element().closest('.list').find('.list-title span').text();
+    }
 
-    if (!taskId || !newStatus) return;
+    function onTaskDrop(e: DevExpress.ui.dxSortable.AddEvent | DevExpress.ui.dxSortable.ReorderEvent) {
+        const $item = $(e.itemElement);
+        const taskId = $item.data("task-id");
+        const newStatus = e.toComponent.element().closest('.list').find('.list-title span').text();
 
-    tasksStore.update(taskId, { Status: newStatus, NewOrderIndex: e.toIndex });
-}
+        if (!taskId || !newStatus) return;
+
+        tasksStore.update(taskId, { Status: newStatus, NewOrderIndex: e.toIndex });
+    }
+
+    window.uitgAppContext.KanbanTasksController = {
+        reorder,
+        onListReorder,
+        onStatusReorder,
+        navigateToDetails,
+        onClick,
+        changePopupVisibility,
+        onTaskDragStart,
+        onTaskDrop
+    };
+}) ();

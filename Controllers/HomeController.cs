@@ -31,7 +31,14 @@ namespace DevExtremeVSTemplateMVC.Controllers
                 case "grid":
                     return View("../PlanningTasks/PlanningTasksGrid");
                 case "kanban":
-                    return View("../PlanningTasks/PlanningTasksKanban");
+                    var tasks = _context.Tasks.Where(t => t.Status != "").ToList();
+                    var taskLists = _context.TaskLists.OrderBy(tl => tl.OrderIndex).ToList();
+
+                    return View("../PlanningTasks/PlanningTasksKanban", new TaskMainSortableViewModel
+                    {
+                        Tasks = tasks,
+                        StatusOrder = taskLists
+                    });
                 case "gantt":
                     return View("../PlanningTasks/PlanningTasksGantt");
                 case "":
