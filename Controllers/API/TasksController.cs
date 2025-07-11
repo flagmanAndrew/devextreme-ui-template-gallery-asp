@@ -63,7 +63,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
                 var status = task.Status;
 
                 var tasks = _context.Tasks
-                    .Where(t => t.Status == status && t.Owner != null)
+                    .Where(t => t.Status == status && t.Owner == DemoConsts.DemoFilteredOwnerName)
                     .OrderBy(t => t.OrderIndex)
                     .ToList();
 
