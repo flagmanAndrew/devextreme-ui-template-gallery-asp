@@ -6,6 +6,7 @@
     <div class="gantt">
         @(Html.DevExtreme().Gantt<EmployeeTask>()
             .ID("tasks-gantt")
+            .OnInitialized("(e) => { setTimeout(() => { e.component.repaint(); }); }")
             .TaskListWidth(500)
             .ScaleType(GanttScaleType.Weeks)
             .Height("100%")
