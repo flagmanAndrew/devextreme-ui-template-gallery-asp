@@ -11,7 +11,6 @@ interface PlanningTasksController {
     exportToPdf(): void;
     exportToXlsx(): void;
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void;
-    ganttBeforeSend(operation: string, ajaxSettings: JQuery.PlainObject): void;
 }
 
 interface KanbanTasksController {
