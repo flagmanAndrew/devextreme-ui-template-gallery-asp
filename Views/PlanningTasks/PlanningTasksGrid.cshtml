@@ -1,6 +1,14 @@
 ﻿@using DevExtremeVSTemplateMVC.Models
 @using DevExtremeVSTemplateMVC.Utils;
 
+@{
+    string gridFilter = @"[
+        ['Status', '<>', null], 'and',
+        ['Priority', '<>', null], 'and',
+        ['Owner', '<>', null]
+    ]";
+}
+
 <link href="~/css/components/TaskListGrid.css" rel="stylesheet" />
 
 <div class="view-wrapper view-wrapper-task-list list-page">
@@ -12,7 +20,7 @@
             ds.Mvc().Controller("Tasks").Key("TaskId")
             .LoadAction("GetTasks").UpdateAction("UpdateTask").InsertAction("InsertTask")
         )
-        .DataSourceOptions(dso => dso.Filter("[['Status', '<>', null], 'and', ['Priority', '<>', null]]"))
+        .DataSourceOptions(dso => dso.Filter(gridFilter))
         .ElementAttr(new { @class = "planning-grid theme-dependent" })
         .Height("100%")
         .RemoteOperations(true)
