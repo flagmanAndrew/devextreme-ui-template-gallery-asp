@@ -13,7 +13,6 @@
             .Tasks(tasks => tasks
                 .DataSource(ds =>
                     ds.Mvc().Controller("Tasks").Key("Id")
-                    .OnBeforeSend("uitgAppContext.PlanningTasksController.ganttBeforeSend")
                     .LoadAction("GetTasks")
                     .UpdateAction("UpdateFilteredTask")
                     .InsertAction("InsertTask")
