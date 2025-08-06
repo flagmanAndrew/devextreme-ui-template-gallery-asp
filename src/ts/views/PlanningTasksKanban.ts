@@ -2,18 +2,6 @@
     if (window.uitgAppContext?.KanbanTasksController) return;
 
     // @ts-ignore
-    const kanbanOrderStore = DevExpress.data.AspNet.createStore({
-        key: 'Id',
-        loadUrl: `/api/KanbanOrder/GetOrder`,
-        insertUrl: `/api/KanbanOrder/UpdateOrder`,
-        onBeforeSend(method: string, ajaxOptions: JQuery.PlainObject) {
-            ajaxOptions.xhrFields = { withCredentials: true };
-            ajaxOptions.contentType = "application/json";
-            ajaxOptions.data = JSON.stringify(ajaxOptions.data);
-        },
-    });
-
-    // @ts-ignore
     const tasksStore = DevExpress.data.AspNet.createStore({
         key: "TaskId",
         updateUrl: "/api/Tasks/UpdateTask",
@@ -62,9 +50,15 @@
             if (newOrder.indexOf(text) === -1) {
                 newOrder.push(text);
             }
-        })
+        });
 
-        kanbanOrderStore.insert({ Statuses: newOrder });
+        $.ajax({
+            url: '/api/KanbanOrder/UpdateOrder',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(newOrder),
+            xhrFields: { withCredentials: true }
+        });
     }
 
     function navigateToDetails(taskId: number) {
