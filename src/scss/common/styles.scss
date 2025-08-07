@@ -154,7 +154,7 @@ body {
 
         .task-priority {
             line-height: 18px;
-            font-size: 13px;
+            font-size: 14px;
         }
     }
 
@@ -251,7 +251,7 @@ body {
     }
 
     span {
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 
@@ -276,6 +276,13 @@ body {
 
 .dx-theme-fluent {
     .dx-widget {
+        font-family: Inter, sans-serif;
+        input {
+            font-family: Inter, sans-serif;
+        }
+    }
+
+    .dx-overlay-wrapper {
         font-family: Inter, sans-serif;
     }
 
