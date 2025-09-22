@@ -2,44 +2,24 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    @await Html.PartialAsync("_CommonHead")
 
-    <title>DevExtreme ASP UI Template Gallery</title>
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
-    <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light"
-          data-active="true" />
-    <link href="~/css/fluent-dark.css" rel="dx-theme" data-theme="fluent.blue.dark"
-          data-active="false" />
     <link href="~/css/dx-gantt.min.css" rel="stylesheet" />
-
-    <link href="~/css/styles.css" rel="stylesheet" />
-
     <link href="~/css/components/SideNavigationMenu.css" rel="stylesheet" />
     <link href="~/css/components/UserPanel.css" rel="stylesheet" />
     <link href="~/css/components/UserMenuSection.css" rel="stylesheet" />
     <link href="~/css/components/AppHeader.css" rel="stylesheet" />
     <link href="~/css/components/AppFooter.css" rel="stylesheet" />
     <link href="~/css/layout/side-nav-outer-toolbar.css" rel="stylesheet" />
-    <script src="~/js/index.js"></script>
+
     <script src="~/js/constants.js"></script>
     <script src="~/js/jszip.min.js"></script>
     <script src="~/js/FileSaver.min.js"></script> 
-    <script src="~/js/jquery.min.js"></script>
     <script src="~/js/exceljs.min.js"></script>
     <script src="~/js/jspdf.umd.min.js"></script>
     <script src="~/js/jspdf.plugin.autotable.min.js"></script>
-    <script src="~/js/router.js"></script>
-    <script src="~/js/theme.js"></script>
     <script src="~/js/layouts/layout.js"></script>    
     <script src="~/js/dx-gantt.min.js"></script>
-    <script src="~/js/dx.all.js"></script>
-    <script src="~/js/dx.aspnet.mvc.js"></script>
-    <script src="~/js/dx.aspnet.data.js"></script>  
 </head>
 @using DevExtremeVSTemplateMVC.Models
 @using DevExtremeVSTemplateMVC.DAL
