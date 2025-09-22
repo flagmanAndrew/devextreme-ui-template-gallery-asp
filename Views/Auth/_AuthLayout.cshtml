@@ -3,10 +3,7 @@
 <html>
 
 <head>
-    @await Html.PartialAsync("_CommonHead")
-
-    <link href="~/css/layout/layout.css" rel="stylesheet" />
-    
+    @await Html.PartialAsync("_CommonStyles")
 </head>
 
 <body class="dx-viewport">
@@ -23,6 +20,9 @@
      )
     </div>
 
+    @* Include common scripts *@
+    @await Html.PartialAsync("_CommonScripts")
+    
     <script>
         document.addEventListener("DOMContentLoaded", function documentReady() {
             this.removeEventListener("DOMContentLoaded", documentReady);
@@ -34,3 +34,7 @@
 </body>
 
 </html>
+
+@section AdditionalStyles {
+    <link href="~/css/layout/layout.css" rel="stylesheet" />
+}

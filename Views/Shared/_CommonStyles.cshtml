@@ -1,14 +1,10 @@
-@{
-    string pageTitle = ViewBag.Title ?? "DevExtreme ASP UI Template Gallery";
-}
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>@pageTitle</title>
+<title>@(ViewBag.Title ?? "DevExtreme ASP UI Template Gallery")</title>
 <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 <link href="~/css/fluent-light.css" rel="dx-theme" data-theme="fluent.blue.light" data-active="true" />
@@ -16,10 +12,4 @@
 
 <link href="~/css/styles.css" rel="stylesheet" />
 
-<script src="~/js/jquery.min.js"></script>
-<script src="~/js/index.js"></script>
-<script src="~/js/router.js"></script>
-<script src="~/js/theme.js"></script>
-<script src="~/js/dx.all.js"></script>
-<script src="~/js/dx.aspnet.mvc.js"></script>
-<script src="~/js/dx.aspnet.data.js"></script>
+@RenderSection("AdditionalStyles", required: false)
