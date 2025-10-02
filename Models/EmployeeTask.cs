@@ -3,8 +3,8 @@
 namespace DevExtremeVSTemplateMVC.Models {
     public partial class EmployeeTask {
         [Key]
-        public int TaskId { get; set; }
         public int Id { get; set; }
+        public int TaskId { get; set; }
         public int? ParentId { get; set; }
         public string Manager { get; set; }
         public string Status { get; set; }
@@ -12,9 +12,11 @@ namespace DevExtremeVSTemplateMVC.Models {
         public DateTime? StartDate { get; set; }
         public DateTime? DueDate { get; set; }
         public int? Progress { get; set; }
+        [Required]
         public string Company { get; set; }
         [Required]
         public string Text { get; set; }
+        [Required]
         public string Owner { get; set; }
         public string Description { get; set; }
         public int OrderIndex { get; set; }

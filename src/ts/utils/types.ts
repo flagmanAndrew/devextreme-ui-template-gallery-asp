@@ -17,7 +17,7 @@ interface KanbanTasksController {
     reorder<T>(items: T[], item: T, fromIndex: number, toIndex: number): T[];
     onListReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
     onStatusReorder(e: DevExpress.ui.dxSortable.ReorderEvent): void;
-    navigateToDetails(taskId: number): void;
+    navigateToDetails(Id: number): void;
     taskEditClick(e: DevExpress.ui.dxButton.ClickEvent, item: EmployeeTask): void;
     showPopupToAddTaskWithStatus(status: string): void;
     onTaskDragStart(e: DevExpress.ui.dxSortable.DragStartEvent): void;

@@ -18,7 +18,7 @@
         {
             var priority = item.Priority != null ? item.Priority.ToLower() : string.Empty;
 
-            <div class='kanban-card dx-card theme-text-color theme-bg-color' data-task-id="@item.TaskId" onclick="uitgAppContext.KanbanTasksController.navigateToDetails(@item.TaskId)">
+            <div class='kanban-card dx-card theme-text-color theme-bg-color' data-task-id="@item.Id" onclick="uitgAppContext.KanbanTasksController.navigateToDetails(@item.Id)">
                 <div class="card-wrapper priority-@priority">
                     <div class='card-priority'></div>
                     @(Html.DevExtreme().Button()

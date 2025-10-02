@@ -55,7 +55,7 @@
     function editTask(taskData: EmployeeTask) {
         if (currentView === "Grid") {
             const grid = $('#tasks-grid').dxDataGrid("instance");
-            grid.getDataSource().store().update(taskData.TaskId, taskData).then(() => { grid.refresh(); });
+            grid.getDataSource().store().update(taskData.Id, taskData).then(() => { grid.refresh(); });
         } else if (currentView === "Gantt") {
             const gantt = $('#tasks-gantt').dxGantt("instance");
             gantt.updateTask(taskData.TaskId, taskData);

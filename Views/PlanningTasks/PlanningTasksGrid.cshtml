@@ -17,7 +17,7 @@
     @(Html.DevExtreme().DataGrid<EmployeeTask>()
         .ID("tasks-grid")
         .DataSource(ds => 
-            ds.Mvc().Controller("Tasks").Key("TaskId")
+            ds.Mvc().Controller("Tasks").Key("Id")
             .LoadAction("GetTasks").UpdateAction("UpdateTask").InsertAction("InsertTask")
         )
         .DataSourceOptions(dso => dso.Filter(gridFilter))
@@ -46,10 +46,7 @@
             .HidingPriority(7);
     
             c.AddFor(m => m.Company)
-            .HidingPriority(6)
-            .ValidationRules(r => {
-                r.AddRequired();
-            });
+            .HidingPriority(6);
     
             c.AddFor(m => m.Priority)
             .HidingPriority(4)
@@ -79,10 +76,7 @@
             .HidingPriority(1);
     
             c.AddFor(m => m.Owner)
-            .HidingPriority(5)
-            .ValidationRules(r => {
-                r.AddRequired();
-            });
+            .HidingPriority(5);
     
             c.AddFor(m => m.Status)
             .HidingPriority(3)

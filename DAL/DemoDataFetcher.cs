@@ -17,10 +17,6 @@ namespace DevExtremeVSTemplateMVC.DAL
             string baseUrlAPI = config.GetValue<string>(ConfigKeys.BaseUrlAPIKey);
             IList<EmployeeTask> allTasks = await FetchListFromApiAsync<EmployeeTask>(httpClient, baseUrlAPI + apiMapping[nameof(DemoDbContext.Tasks)]);
 
-            for (int i = 0; i < allTasks.Count; i++) {
-                allTasks[i].TaskId = i + 1;
-            }
-
             IList<TaskList> kanbanTaskLists = PrepareKanbanData(allTasks);
 
             Contact contact = await FetchEntityFromApiAsync<Contact>(httpClient, baseUrlAPI + string.Format(apiMapping["GetContact"], DemoConsts.DemoUserProfileId));
