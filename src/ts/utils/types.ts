@@ -11,6 +11,7 @@ interface PlanningTasksController {
     exportToPdf(): void;
     exportToXlsx(): void;
     searchDataGrid(e: DevExpress.ui.dxTextBox.InputEvent): void;
+    beforeSendGantt(operation: string, ajaxSettings: any): void;
 }
 
 interface KanbanTasksController {
@@ -121,6 +122,9 @@ type AppConfig = {
         CLASS_STATUS_PREFIX: string;
         CLASS_CELL_STATUS: string;
         DemoFilteredOwnerName: string;
+        DemoDefaultCompanyName: string;
+        DemoDefaultStatus: string;
+        DemoDefaultPriority: string;
     };
 };
 

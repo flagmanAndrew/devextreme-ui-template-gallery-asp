@@ -140,6 +140,17 @@
         $('#tasks-grid').dxDataGrid('instance').searchByText(e.component.option('text') ?? '');
     }
 
+    function beforeSendGantt(operation: string, ajaxSettings: any) {
+        if (operation === "insert") {
+            const dataToSend = JSON.parse(ajaxSettings.data.values);
+            if (!dataToSend.Company) dataToSend.Company = window.uitgAppContext.Constants.DemoDefaultCompanyName;
+            if (!dataToSend.Owner) dataToSend.Owner = window.uitgAppContext.Constants.DemoFilteredOwnerName;
+            if (!dataToSend.Status) dataToSend.Status = window.uitgAppContext.Constants.DemoDefaultStatus;
+            if (!dataToSend.Priority) dataToSend.Priority = window.uitgAppContext.Constants.DemoDefaultPriority;
+            ajaxSettings.data.values = JSON.stringify(dataToSend);
+        }
+    }
+
     window.uitgAppContext.PlanningTasksController = {
         showPopupToEditTask,
         showPopupToAddTask,
@@ -152,6 +163,7 @@
         chooseColumnDataGrid,
         exportToPdf,
         exportToXlsx,
-        searchDataGrid
+        searchDataGrid,
+        beforeSendGantt
     };
 })();

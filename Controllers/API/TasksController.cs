@@ -29,11 +29,10 @@ namespace DevExtremeVSTemplateMVC.Controllers
         [HttpPost]
         public IActionResult InsertTask([FromForm] string values) {
             EmployeeTask employeeTask = new EmployeeTask();
-            UpdateTaskProperties(employeeTask, values);
-            //employeeTask.TaskId = _context.Tasks.Where(t => t.Owner == employeeTask.Owner).Max(t => t.TaskId) + 1;
+            PopulateModel(employeeTask, values);
             _context.Tasks.Add(employeeTask);
             _context.SaveChanges();
-            return Json(new { employeeTask.Id });
+            return Json(employeeTask);
         }
 
         [HttpDelete("DeleteTask")]
@@ -69,8 +68,7 @@ namespace DevExtremeVSTemplateMVC.Controllers
         }
 
         IActionResult UpdateTaskProperties(EmployeeTask task, string values) {
-            var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
-            PopulateModel(task, updatedValues);
+            PopulateModel(task, values);
             if (!TryValidateModel(task)) {
                 string[] errors = ModelState
                     .Where(kvp => kvp.Value.Errors.Count > 0)
@@ -93,7 +91,8 @@ namespace DevExtremeVSTemplateMVC.Controllers
                 tasksWithStatus[i].OrderIndex = i;
         }
 
-        void PopulateModel(EmployeeTask task, Dictionary<string, JsonElement> updatedValues) {
+        void PopulateModel(EmployeeTask task, string values) {
+            var updatedValues = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(values);
             var entry = _context.Entry(task);
             foreach (var kv in updatedValues) {
                 var propertyName = kv.Key;

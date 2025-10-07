@@ -31,7 +31,7 @@ namespace DevExtremeVSTemplateMVC.Middleware
             var sessionId = context.Session.Id;
 
             var connection = await _cache.GetOrCreateAsync(sessionId, async entry => {
-                var conn = new SqliteConnection("Data Source=:memory:");
+                var conn = new SqliteConnection(string.Format(DemoConsts.InMemoryConnectionString, sessionId));
                 await conn.OpenAsync();
 
                 var options = new DbContextOptionsBuilder<DemoDbContext>()
