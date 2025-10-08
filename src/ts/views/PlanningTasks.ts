@@ -55,7 +55,7 @@
     function editTask(taskData: EmployeeTask) {
         if (currentView === "Grid") {
             const grid = $('#tasks-grid').dxDataGrid("instance");
-            grid.getDataSource().store().update(taskData.TaskId, taskData).then(() => { grid.refresh(); });
+            grid.getDataSource().store().update(taskData.Id, taskData).then(() => { grid.refresh(); });
         } else if (currentView === "Gantt") {
             const gantt = $('#tasks-gantt').dxGantt("instance");
             gantt.updateTask(taskData.TaskId, taskData);
@@ -140,6 +140,17 @@
         $('#tasks-grid').dxDataGrid('instance').searchByText(e.component.option('text') ?? '');
     }
 
+    function beforeSendGantt(operation: string, ajaxSettings: any) {
+        if (operation === "insert") {
+            const dataToSend = JSON.parse(ajaxSettings.data.values);
+            dataToSend.Company ||= window.uitgAppContext.Constants.DemoDefaultCompanyName;
+            dataToSend.Owner ||= window.uitgAppContext.Constants.DemoFilteredOwnerName;
+            dataToSend.Status ||= window.uitgAppContext.Constants.DemoDefaultStatus;
+            dataToSend.Priority ||= window.uitgAppContext.Constants.DemoDefaultPriority;
+            ajaxSettings.data.values = JSON.stringify(dataToSend);
+        }
+    }
+
     window.uitgAppContext.PlanningTasksController = {
         showPopupToEditTask,
         showPopupToAddTask,
@@ -152,6 +163,7 @@
         chooseColumnDataGrid,
         exportToPdf,
         exportToXlsx,
-        searchDataGrid
+        searchDataGrid,
+        beforeSendGantt
     };
 })();

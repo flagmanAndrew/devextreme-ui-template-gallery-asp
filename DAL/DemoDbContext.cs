@@ -1,6 +1,4 @@
 ﻿using DevExtremeVSTemplateMVC.Models;
-using DevExtremeVSTemplateMVC.Services;
-using DevExtremeVSTemplateMVC.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevExtremeVSTemplateMVC.DAL
@@ -14,15 +12,19 @@ namespace DevExtremeVSTemplateMVC.DAL
         public DemoDbContext(DbContextOptions<DemoDbContext> options)
             : base(options) { }
 
-        public override int SaveChanges() {
+        void GenerateTaskId() {
             var newTasks = ChangeTracker.Entries<EmployeeTask>()
                 .Where(e => e.State == EntityState.Added);
             foreach (var entry in newTasks) {
-                if (entry.Entity.Id == 0) {
-                    var maxOrder = Math.Max(1000, Tasks.Max(t => t.Id));
-                    entry.Entity.Id = maxOrder + 1;
+                if (entry.Entity.TaskId == 0) {
+                    var maxOrder = Math.Max(1000, Tasks.Max(t => t.TaskId));
+                    entry.Entity.TaskId = maxOrder + 1;
                 }
             }
+        }
+
+        public override int SaveChanges() {
+            GenerateTaskId();
             return base.SaveChanges();
         }
     }

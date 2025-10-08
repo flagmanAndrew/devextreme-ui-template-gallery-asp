@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using DevExtremeVSTemplateMVC.Utils;
+using Microsoft.Data.Sqlite;
 
 namespace DevExtremeVSTemplateMVC.Services
 {
@@ -16,7 +17,8 @@ namespace DevExtremeVSTemplateMVC.Services
         }
 
         public SqliteConnection GetConnection() {
-            return _httpContextAccessor.HttpContext?.Items["SqliteConnection"] as SqliteConnection;
+            SqliteConnection mainConnection = _httpContextAccessor.HttpContext?.Items["SqliteConnection"] as SqliteConnection;
+            return new SqliteConnection(mainConnection.ConnectionString);
         }
     }
 }

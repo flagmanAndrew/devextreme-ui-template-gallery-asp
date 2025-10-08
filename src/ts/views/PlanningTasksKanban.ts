@@ -3,7 +3,7 @@
 
     // @ts-ignore
     const tasksStore = DevExpress.data.AspNet.createStore({
-        key: "TaskId",
+        key: "Id",
         updateUrl: "/api/Tasks/UpdateTask",
         insertUrl: "/api/Tasks",
         onBeforeSend(method: string, ajaxOptions: JQuery.PlainObject) {
@@ -61,8 +61,8 @@
         });
     }
 
-    function navigateToDetails(taskId: number) {
-        DevExpress.ui.notify(`Navigate to task details (Id = ${taskId})`);
+    function navigateToDetails(Id: number) {
+        DevExpress.ui.notify(`Navigate to task details (Id = ${Id})`);
     }
 
     function taskEditClick(e: DevExpress.ui.dxButton.ClickEvent, task: EmployeeTask) {
@@ -84,7 +84,7 @@
     }
 
     function updateTask(taskData: EmployeeTask): void {
-        tasksStore.update(taskData.TaskId, taskData).then(() => {
+        tasksStore.update(taskData.Id, taskData).then(() => {
                 window.uitgAppContext.SPARouter.navigate("/Home/PlanningTasks/Kanban");
             })
             .fail((xhr: JQueryXHR, status: string, error: string) => {
