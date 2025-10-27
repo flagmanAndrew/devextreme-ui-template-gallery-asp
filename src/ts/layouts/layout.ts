@@ -81,19 +81,19 @@
         return 'screen-x-small';
     };
 
-    function updateScreenSize() {
+    function updateScreenSizeClass() {
         ['screen-large', 'screen-medium', 'screen-small', 'screen-x-small']
             .forEach(screenClass => $(".app").removeClass(screenClass));
         $(".app").addClass(getScreenSizeClass());
     }
 
     function init() {
-        updateScreenSize();
+        updateScreenSizeClass();
         $.each(breakpoints, (_, media) => {
             media.addEventListener('change', (e) => {
                 if (e.matches) {
                     updateSidePanel();
-                    updateScreenSize();
+                    updateScreenSizeClass();
                 }
             });
         });
