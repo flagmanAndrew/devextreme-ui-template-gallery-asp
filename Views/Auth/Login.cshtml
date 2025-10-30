@@ -1,10 +1,80 @@
-<h2 class="content-block">Login Form</h2>
+<link href="~/css/views/CardAuth.css" rel="stylesheet" />
+<link href="~/css/components/LoginForm.css" rel="stylesheet" />
+<link href="~/css/components/OAuthForm.css" rel="stylesheet" />
+<script src="~/js/layouts/authlayout.js"></script>
 
-<p class="content-block dx-card responsive-paddings">
-    Login Form goes here...
-    <a onclick="SPARouter.navigate('@(Url.Action("SignUp", "Auth"))');">Sign Up</a>
-</p>
-
-@section MySection {
-    <p class="content-block dx-card responsive-paddings">Login section content</p>
+@using DevExtremeVSTemplateMVC.Models;
+@model UserData
+@{
+    bool topLayout = this.Context.Request.Path.Value.Contains("Home");
 }
+
+<script>
+    window.uitgAppContext.AuthLayoutController.keepTopLayout = '@Html.Raw(topLayout)' === "True";
+</script>
+
+<div class="auth-card">
+    <div class="dx-card content">
+        @await Html.PartialAsync("/Views/Auth/_AuthHeader.cshtml", "Sign In")
+        <div class="content">
+            <form class="login-form">
+                @(Html.DevExtreme().Form<UserData>()
+                    .ID("form-instance")
+                    .FormData(Model)
+                    .Items(items =>
+                    {
+                        items.AddSimpleFor(m => m.Email)
+                        .Editor(e => e
+                        .TextBox()
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Placeholder("Email")
+                        .Mode(TextBoxMode.Email)
+                        .Value("jheart@dx-email.com")
+                        )
+                        .Label(l => l.Visible(false));
+
+                        items.AddSimpleFor(m => m.Password)
+                        .Editor(e => e
+                        .TextBox()
+                        .StylingMode(EditorStylingMode.Filled)
+                        .Placeholder("Password")
+                        .Mode(TextBoxMode.Password)
+                        .Value("password")
+                        ).Label(l => l.Visible(false));
+
+                        items.AddSimple()
+                        .DataField("rememberMe")
+                        .Editor(e => e
+                        .CheckBox()
+                        .Text("Remember me")
+                        .ElementAttr(new { @class = "form-text" })
+                        ).Label(l => l.Visible(false));
+
+                        items.AddButton()
+                        .ButtonOptions(b => b
+                        .Width("100%")
+                        .Type(ButtonType.Default)
+                        .OnClick("window.uitgAppContext.AuthLayoutController.onSubmit")
+                        .Template(new TemplateName("auth-button"))
+                        );
+                    })
+                )
+
+                <div class="reset-link">
+                    <a href="@(Url.Action("ForgotPassword", topLayout ? "Home" : "Auth"))" class="spa-link">Forgot
+                        password?</a>
+                </div>
+
+                @(Html.DevExtreme().Button()
+                                .Text("Register")
+                                .Width("100%")
+                                .StylingMode(ButtonStylingMode.Contained)
+                                .OnClick("window.uitgAppContext.AuthLayoutController.onCreateAccountClick")
+                                )
+            </form>
+            <partial name="/Views/Auth/_OAuthButtons.cshtml" />
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("/Views/Auth/_AuthButtonTemplate.cshtml", ("submitLoadingIndicator", "Sign In"))
