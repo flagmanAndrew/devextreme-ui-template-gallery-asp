@@ -53,7 +53,7 @@ The UI Template Gallery includes the following templates:
 - Clone this repository.
 - Open the project folder in an IDE that supports `.NET` (e.g. Visual Studio Code).
 - [Get the key](https://docs.devexpress.com/GeneralInformation/116042/nuget/obtain-your-nuget-feed-credentials#devexpresscom-online-nuget-feed-any-os) and update the [Nuget.config](https://github.com/DevExpress/devextreme-asp-ui-template-gallery/blob/dev/NuGet.config) file.
-- If .NET SDK if necessary ([download](https://dotnet.microsoft.com/en-us/download)).
+- Install .NET SDK if necessary ([download](https://dotnet.microsoft.com/en-us/download)).
 - Run the `dotnet run` command in the terminal from the project root folder.
 
 ## Project Structure
@@ -175,3 +175,4 @@ Client-side APIs are based on [jQuery](https://api.jquery.com/) and are describe
 - [Get a UI Component Instance](https://js.devexpress.com/DevExtreme/Guide/jQuery_Components/Component_Configuration_Syntax/#Get_a_UI_Component_Instance)
 
 Need help? Submit a ticket to the [DevExpress Support Center](https://www.devexpress.com/Support/Center/Question/Create).
+
